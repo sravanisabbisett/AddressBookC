@@ -34,7 +34,7 @@ namespace AddressBook
             personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
             foreach (Person addPerson in personList)
                 Console.WriteLine(addPerson.toString());
-            
+
         }
     }
 }
