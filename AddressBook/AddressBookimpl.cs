@@ -39,7 +39,26 @@ namespace AddressBook
 
         public void EditPerson()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Enter Edit Person details");
+            String edit = Console.ReadLine();
+            
+            foreach(Person editPerson in personList)
+            {
+                Console.WriteLine("Enter Firstname");
+                editPerson.firstName = Console.ReadLine();
+                Console.WriteLine("Enter Lastname");
+                editPerson.lastName = Console.ReadLine();
+                Console.WriteLine("Enter city");
+                editPerson.city = Console.ReadLine();
+                Console.WriteLine("Enter state");
+                editPerson.state = Console.ReadLine();
+                Console.WriteLine("Enter Zip");
+                editPerson.zip = Console.ReadLine();
+                Console.WriteLine("Enter Mobile number");
+                editPerson.mobileNumber = Console.ReadLine();
+            }
+            foreach (Person addPerson in personList)
+                Console.WriteLine(addPerson.toString());
         }
 
         public void DeletePerson()
@@ -47,15 +66,15 @@ namespace AddressBook
             Console.WriteLine("Enter your Delete person details");
             string search = Console.ReadLine();
             int index = 0;
-            List<Person> ToRemove = new List<Person>();
+            Console.WriteLine("Size before deleting::" + personList.Count);
             foreach (Person delPerson in personList)
             {
                 if (search.Equals(delPerson.firstName)){
                     index = personList.IndexOf(delPerson);
-                    ToRemove.Add(delPerson);
+                    personList.RemoveAt(index);
+                    Console.WriteLine("Size after deletion::"+personList.Count);
+                    break;
                 }
-                personList.RemoveAt(index);
-                Console.WriteLine(personList.Count);
             }
         }
     }

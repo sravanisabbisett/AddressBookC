@@ -18,7 +18,7 @@ namespace AddressBook
                         addressBook.AddPerson();
                         break;
                     case 2:
-                        Console.WriteLine("Two");
+                        addressBook.EditPerson();
                         break;
                     case 3:
                         addressBook.DeletePerson();
