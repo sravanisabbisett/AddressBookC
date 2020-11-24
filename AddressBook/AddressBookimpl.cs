@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AddressBook
 {
-    class AddressBookimpl
+    class AddressBookimpl:IAddressBook
     {
         public string firstName;
         public string lastName;
@@ -17,7 +17,7 @@ namespace AddressBook
 
 
         
-        public void AddUser()
+        public void AddPerson()
         {
             Console.WriteLine("Enter Firstname");
             firstName = Console.ReadLine();
@@ -35,6 +35,28 @@ namespace AddressBook
             foreach (Person addPerson in personList)
                 Console.WriteLine(addPerson.toString());
 
+        }
+
+        public void EditPerson()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeletePerson()
+        {
+            Console.WriteLine("Enter your Delete person details");
+            string search = Console.ReadLine();
+            int index = 0;
+            List<Person> ToRemove = new List<Person>();
+            foreach (Person delPerson in personList)
+            {
+                if (search.Equals(delPerson.firstName)){
+                    index = personList.IndexOf(delPerson);
+                    ToRemove.Add(delPerson);
+                }
+                personList.RemoveAt(index);
+                Console.WriteLine(personList.Count);
+            }
         }
     }
 }
