@@ -7,6 +7,7 @@ namespace AddressBook
 {
     class AddressBookimpl:IAddressBook
     {
+        //varaibles
         public string firstName;
         public string lastName;
         public string city;
@@ -16,7 +17,9 @@ namespace AddressBook
         List<Person> personList = new List<Person>();
 
 
-        
+        /// <summary>
+        /// adding the person in person list
+        /// </summary>
         public void AddPerson()
         {
             Console.WriteLine("Enter Firstname");
@@ -32,11 +35,12 @@ namespace AddressBook
             Console.WriteLine("Enter Mobile number");
             mobileNumber = Console.ReadLine();
             personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
-            foreach (Person addPerson in personList)
-                Console.WriteLine(addPerson.toString());
+            Display();
 
         }
-
+        /// <summary>
+        /// Edit the person from existing list
+        /// </summary>
         public void EditPerson()
         {
             Console.WriteLine("Enter Edit Person details");
@@ -57,10 +61,11 @@ namespace AddressBook
                 Console.WriteLine("Enter Mobile number");
                 editPerson.mobileNumber = Console.ReadLine();
             }
-            foreach (Person addPerson in personList)
-                Console.WriteLine(addPerson.toString());
+            Display();
         }
-
+        /// <summary>
+        /// Deletes the person from existing list
+        /// </summary>
         public void DeletePerson()
         {
             Console.WriteLine("Enter your Delete person details");
@@ -76,6 +81,11 @@ namespace AddressBook
                     break;
                 }
             }
+        }
+        public void Display()
+        {
+            foreach (Person person in personList)
+                Console.WriteLine(person.toString());
         }
     }
 }
