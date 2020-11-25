@@ -14,27 +14,33 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
+        Person person;
         List<Person> personList = new List<Person>();
 
 
         /// <summary>
         /// adding the person in person list
         /// </summary>
+        
+        
         public void AddPerson()
         {
-            Console.WriteLine("Enter Firstname");
-            firstName = Console.ReadLine();
-            Console.WriteLine("Enter Lastname");
-            lastName = Console.ReadLine();
-            Console.WriteLine("Enter city");
-            city = Console.ReadLine();
-            Console.WriteLine("Enter state");
-            state = Console.ReadLine();
-            Console.WriteLine("Enter Zip");
-            zip = Console.ReadLine();
-            Console.WriteLine("Enter Mobile number");
-            mobileNumber = Console.ReadLine();
-            personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
+            for (int i = 1; i <= 2; i++)
+            {
+                Console.WriteLine("Enter Firstname");
+                firstName = Console.ReadLine();
+                Console.WriteLine("Enter Lastname");
+                lastName = Console.ReadLine();
+                Console.WriteLine("Enter city");
+                city = Console.ReadLine();
+                Console.WriteLine("Enter state");
+                state = Console.ReadLine();
+                Console.WriteLine("Enter Zip");
+                zip = Console.ReadLine();
+                Console.WriteLine("Enter Mobile number");
+                mobileNumber = Console.ReadLine();
+                personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
+            }
             Display();
 
         }
@@ -49,7 +55,7 @@ namespace AddressBook
             foreach(Person editPerson in personList)
             {
                 Console.WriteLine("Enter Firstname");
-                editPerson.firstName = Console.ReadLine();
+                firstName = editPerson.firstName;
                 Console.WriteLine("Enter Lastname");
                 editPerson.lastName = Console.ReadLine();
                 Console.WriteLine("Enter city");
@@ -82,6 +88,9 @@ namespace AddressBook
                 }
             }
         }
+        /// <summary>
+        /// Displays this list.
+        /// </summary>
         public void Display()
         {
             foreach (Person person in personList)
