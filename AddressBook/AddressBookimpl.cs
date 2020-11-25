@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AddressBook
 {
@@ -14,6 +15,9 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
+        string NAME_REGEX = "^[a-z]{3,}$";
+        string ZIP_REGEX = "^[1-9]{1}[0-9]{5}$";
+        string NUMBER_REGEX = "^[0-9]{10}$";
         NLog nLog = new NLog();
         List<Person> personList = new List<Person>();
         Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
@@ -42,8 +46,7 @@ namespace AddressBook
                 zip = Console.ReadLine();
                 Console.WriteLine("Enter Mobile number");
                 mobileNumber = Console.ReadLine();
-                personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
-                person.Add(firstName, personList);
+                personInfoValidation(firstName,lastName,zip,mobileNumber);
             }
             nLog.LogDebug("Debug sucessfull:AddPerson()");
             Display();
@@ -104,6 +107,27 @@ namespace AddressBook
         {
             foreach (Person person in personList)
                 Console.WriteLine(person.toString());
+        }
+
+        /// <summary>
+        /// validing person details using regex
+        /// </summary>
+        /// <param name="firstname">The firstname.</param>
+        /// <param name="lastname">The lastname.</param>
+        /// <param name="zipcode">The zipcode.</param>
+        /// <param name="mobileNumber">The mobile number.</param>
+        
+        public void personInfoValidation(string firstname,string lastname,string zipcode,string mobileNumber)
+        {
+            if (Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
+            {
+                personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
+                person.Add(firstName, personList);
+            }
+            else
+            {
+                nLog.LogError("Please enter valid details");
+            }
         }
     }
 }
