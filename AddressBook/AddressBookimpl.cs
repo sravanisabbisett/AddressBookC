@@ -15,6 +15,7 @@ namespace AddressBook
         public string zip;
         public string mobileNumber;
         Person person;
+        NLog nLog = new NLog();
         List<Person> personList = new List<Person>();
 
 
@@ -25,7 +26,9 @@ namespace AddressBook
         
         public void AddPerson()
         {
-            for (int i = 1; i <= 2; i++)
+            Console.WriteLine("please enter number of persons to be added");
+            int noOfPersons = Convert.ToInt32(Console.ReadLine());
+            for (int i = 1; i <= noOfPersons; i++)
             {
                 Console.WriteLine("Enter Firstname");
                 firstName = Console.ReadLine();
@@ -41,6 +44,7 @@ namespace AddressBook
                 mobileNumber = Console.ReadLine();
                 personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
             }
+            nLog.LogDebug("Debug sucessfull:AddPerson()");
             Display();
 
         }
@@ -51,22 +55,25 @@ namespace AddressBook
         {
             Console.WriteLine("Enter Edit Person details");
             String edit = Console.ReadLine();
-            
             foreach(Person editPerson in personList)
             {
-                Console.WriteLine("Enter Firstname");
-                firstName = editPerson.firstName;
-                Console.WriteLine("Enter Lastname");
-                editPerson.lastName = Console.ReadLine();
-                Console.WriteLine("Enter city");
-                editPerson.city = Console.ReadLine();
-                Console.WriteLine("Enter state");
-                editPerson.state = Console.ReadLine();
-                Console.WriteLine("Enter Zip");
-                editPerson.zip = Console.ReadLine();
-                Console.WriteLine("Enter Mobile number");
-                editPerson.mobileNumber = Console.ReadLine();
+                if (edit.Equals(editPerson.firstName))
+                {
+                    Console.WriteLine("Enter Firstname");
+                    firstName = editPerson.firstName;
+                    Console.WriteLine("Enter Lastname");
+                    editPerson.lastName = Console.ReadLine();
+                    Console.WriteLine("Enter city");
+                    editPerson.city = Console.ReadLine();
+                    Console.WriteLine("Enter state");
+                    editPerson.state = Console.ReadLine();
+                    Console.WriteLine("Enter Zip");
+                    editPerson.zip = Console.ReadLine();
+                    Console.WriteLine("Enter Mobile number");
+                    editPerson.mobileNumber = Console.ReadLine();
+                }
             }
+            nLog.LogDebug("Debug sucessfull:EditPerson()");
             Display();
         }
         /// <summary>
@@ -84,6 +91,7 @@ namespace AddressBook
                     index = personList.IndexOf(delPerson);
                     personList.RemoveAt(index);
                     Console.WriteLine("Size after deletion::"+personList.Count);
+                    nLog.LogDebug("Debug sucessfull:DeletePerson()");
                     break;
                 }
             }

@@ -1,0 +1,2 @@
+2020-11-25 18:20:47.4023|DEBUG|NLogDemo.NLog|Debug sucessfull:Sum()
+2020-11-25 18:20:47.4135|INFO|NLogDemo.NLog|Sum method passed::9
