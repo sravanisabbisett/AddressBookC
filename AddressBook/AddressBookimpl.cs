@@ -14,9 +14,9 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
-        Person person;
         NLog nLog = new NLog();
         List<Person> personList = new List<Person>();
+        Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
 
 
         /// <summary>
@@ -43,6 +43,7 @@ namespace AddressBook
                 Console.WriteLine("Enter Mobile number");
                 mobileNumber = Console.ReadLine();
                 personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
+                person.Add(firstName, personList);
             }
             nLog.LogDebug("Debug sucessfull:AddPerson()");
             Display();
