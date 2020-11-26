@@ -31,22 +31,29 @@ namespace AddressBook
         public void AddPerson()
         {
             Console.WriteLine("please enter number of persons to be added");
-            int noOfPersons = Convert.ToInt32(Console.ReadLine());
-            for (int i = 1; i <= noOfPersons; i++)
+            try
             {
-                Console.WriteLine("Enter Firstname");
-                firstName = Console.ReadLine();
-                Console.WriteLine("Enter Lastname");
-                lastName = Console.ReadLine();
-                Console.WriteLine("Enter city");
-                city = Console.ReadLine();
-                Console.WriteLine("Enter state");
-                state = Console.ReadLine();
-                Console.WriteLine("Enter Zip");
-                zip = Console.ReadLine();
-                Console.WriteLine("Enter Mobile number");
-                mobileNumber = Console.ReadLine();
-                personInfoValidation(firstName,lastName,zip,mobileNumber);
+                int noOfPersons = Convert.ToInt32(Console.ReadLine());
+                for (int i = 1; i <= noOfPersons; i++)
+                {
+                    Console.WriteLine("Enter Firstname");
+                    firstName = Console.ReadLine();
+                    Console.WriteLine("Enter Lastname");
+                    lastName = Console.ReadLine();
+                    Console.WriteLine("Enter city");
+                    city = Console.ReadLine();
+                    Console.WriteLine("Enter state");
+                    state = Console.ReadLine();
+                    Console.WriteLine("Enter Zip");
+                    zip = Console.ReadLine();
+                    Console.WriteLine("Enter Mobile number");
+                    mobileNumber = Console.ReadLine();
+                    personInfoValidation(firstName, lastName, zip, mobileNumber);
+                }
+            }
+            catch(System.FormatException addressbookException)
+            {
+                throw new AddressBookException(addressbookException.Message);
             }
             nLog.LogDebug("Debug sucessfull:AddPerson()");
             Display();

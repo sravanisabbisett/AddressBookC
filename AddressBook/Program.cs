@@ -2,7 +2,7 @@
 
 namespace AddressBook
 {
-    class Program
+    class Program 
     {
         static void Main(string[] args)
         {
@@ -11,33 +11,44 @@ namespace AddressBook
             while (true)
             {
                 Console.WriteLine("1)Add Person in AddressBook\n" + "2)Edit Person in Address\n" + "3)Delete Person in AddressBook");
-                var choice = Convert.ToInt32(Console.ReadLine());
-                switch (choice)
+                try
                 {
-                    case 1:
-                        addressBook.AddPerson();
+                    var choice = Convert.ToInt32(Console.ReadLine());
+                    switch (choice)
+                    {
+                        case 1:
+                            addressBook.AddPerson();
+                            break;
+                        case 2:
+                            addressBook.EditPerson();
+                            break;
+                        case 3:
+                            addressBook.DeletePerson();
+                            break;
+                        default:
+                            Console.Write("Please Enter correct option");
+                            break;
+                    }
+                    Console.WriteLine("Do you want to continue(Y / N) ? ");
+                    var variable = Console.ReadLine();
+                    if (variable.Equals("y"))
+                    {
+                        continue;
+                    }
+                    else
+                    {
                         break;
-                    case 2:
-                        addressBook.EditPerson();
-                        break;
-                    case 3:
-                        addressBook.DeletePerson();
-                        break;
-                    default:
-                        Console.Write("Please Enter correct option");
-                        break;
+                    }
                 }
-                Console.WriteLine("Do you want to continue(Y / N) ? ");
-                var variable = Console.ReadLine();
-                if (variable.Equals("y"))
+                catch(System.FormatException formatException)
                 {
-                    continue;
+                    Console.WriteLine(formatException);
+                   //throw new AddressBookException(formatException.Message);
                 }
-                else
+                catch(AddressBookException Exception)
                 {
-                    break;
+                    Console.WriteLine(Exception.Message);
                 }
-                
             }
             Console.ReadKey();
         }
