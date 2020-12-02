@@ -41,7 +41,7 @@ namespace AddressBook
         /// <returns></returns>
         public string toString()
         {
-            return "FirstName::" + firstName + ",LastName::" + lastName + ",City::" + city + ",State::" + state + ",Zip::" + zip + ",MobileNumber" + mobileNumber;
+            return "FirstName::" + firstName + ",LastName::" + lastName + ",City::" + city + ",State::" + state + ",Zip::" + zip + ",MobileNumber::" + mobileNumber;
         }
 
     }

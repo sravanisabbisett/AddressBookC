@@ -25,6 +25,8 @@ namespace AddressBook
         NLog nLog = new NLog();
         List<Person> personList = new List<Person>();
         Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
+        Dictionary<string, string> cityDictionary = new Dictionary<string, string>();
+        Dictionary<string ,string> stateDictionary = new Dictionary<string, string>();
         bool i = true;
 
 
@@ -54,7 +56,7 @@ namespace AddressBook
                     Console.WriteLine("Enter Mobile number");
                     mobileNumber = Console.ReadLine();
                     CheckForDuplicate(firstName);
-                    personInfoValidation(firstName, lastName, zip, mobileNumber);
+                    PersonInfoValidation(firstName, lastName, zip, mobileNumber);
                     Console.WriteLine("want to add more contacts then press 1 or press other than 1");
                     int choice = Convert.ToInt32(Console.ReadLine());
                     if (choice == 1)
@@ -125,6 +127,8 @@ namespace AddressBook
         /// </summary>
         public void Display()
         {
+            if (personList.Count == 0) 
+                Console.WriteLine("No contact data to display ");
             foreach (Person person in personList)
                 Console.WriteLine(person.toString());
         }
@@ -137,12 +141,14 @@ namespace AddressBook
         /// <param name="zipcode">The zipcode.</param>
         /// <param name="mobileNumber">The mobile number.</param>
         
-        public void personInfoValidation(string firstname,string lastname,string zipcode,string mobileNumber)
+        public void PersonInfoValidation(string firstname,string lastname,string zipcode,string mobileNumber)
         {
             if (checkForDuplicate==0 &&Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
             {
                 personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
                 person.Add(firstName, personList);
+                cityDictionary.Add(firstname, city);
+                stateDictionary.Add(firstname, state);
             }
             else
             {
@@ -167,6 +173,11 @@ namespace AddressBook
             
         }
 
+        /// <summary>
+        /// search the person in the addressbook by using city or state
+        /// </summary>
+        /// <exception cref="AddressBookException">Please enter correct input</exception>
+        
         public void SearchPerson()
         {
             Console.WriteLine("Choose you want to search by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
@@ -179,17 +190,13 @@ namespace AddressBook
                         Console.WriteLine("Enter city name to search");
                         string searchCity = Console.ReadLine();
                         foreach (Person person in personList.FindAll(s => s.city.Equals(searchCity)).ToList())
-                        {
                             Console.WriteLine(person.toString());
-                        }
                         break;
                     case 2:
                         Console.WriteLine("Enter state name to search");
                         string searchState = Console.ReadLine();
                         foreach (Person person in personList.FindAll(s => s.state.Equals(searchState)).ToList())
-                        {
                             Console.WriteLine(person.toString());
-                        }
                         break;
                 }
             }
@@ -199,6 +206,11 @@ namespace AddressBook
             }
         }
 
+        /// <summary>
+        /// Count the persons in address book by using city or state
+        /// </summary>
+        /// <exception cref="AddressBookException">Please enter correct input</exception>
+        
         public void CountPerson()
         {
             Console.WriteLine("Choose how you want to count by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
@@ -226,5 +238,40 @@ namespace AddressBook
                 throw new AddressBookException("Please enter correct input");
             }
         }
+
+        /// <summary>
+        /// view the persons in addressbook by using city or state
+        /// </summary>
+        public void ViewAddressBook()
+        {
+            Console.WriteLine("Choose how you want to view by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
+            try
+            {
+                int choose = Convert.ToInt32(Console.ReadLine());
+                switch (choose)
+                {
+                    case 1:
+                        Console.WriteLine("Enter city name to view person");
+                        string viewCity = Console.ReadLine();
+                        var searchCity = cityDictionary.Where(x => x.Value.Equals(viewCity));
+                        foreach (var result in searchCity)
+                            Console.WriteLine("Firstname:{0} , City:{1}",result.Key, result.Value);
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter state name to view person");
+                        string viewState = Console.ReadLine();
+                        var searchState = stateDictionary.Where(x => x.Value.Equals(viewState));
+                        foreach (var result in searchState)
+                            Console.WriteLine("Firstname:{0} , State:{1}", result.Key, result.Value);
+                        break;
+                }
+            }
+            catch (System.FormatException)
+            {
+                throw new AddressBookException("Please enter correct input");
+            }
+        }
+
+            
     }
 }
