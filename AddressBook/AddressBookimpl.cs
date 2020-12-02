@@ -15,12 +15,16 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
-        string NAME_REGEX = "^[a-z]{3,}$";
-        string ZIP_REGEX = "^[1-9]{1}[0-9]{5}$";
-        string NUMBER_REGEX = "^[0-9]{10}$";
+        int checkForDuplicate = 0;
+        //constants
+        public const string NAME_REGEX = "^[a-z]{3,}$";
+        public const string ZIP_REGEX = "^[1-9]{1}[0-9]{5}$";
+        public const string NUMBER_REGEX = "^[0-9]{10}$";
+       
         NLog nLog = new NLog();
         List<Person> personList = new List<Person>();
         Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
+        bool i = true;
 
 
         /// <summary>
@@ -30,12 +34,12 @@ namespace AddressBook
         
         public void AddPerson()
         {
-            Console.WriteLine("please enter number of persons to be added");
-            try
+            i = true;
+            while (i)
             {
-                int noOfPersons = Convert.ToInt32(Console.ReadLine());
-                for (int i = 1; i <= noOfPersons; i++)
+                try
                 {
+
                     Console.WriteLine("Enter Firstname");
                     firstName = Console.ReadLine();
                     Console.WriteLine("Enter Lastname");
@@ -48,16 +52,24 @@ namespace AddressBook
                     zip = Console.ReadLine();
                     Console.WriteLine("Enter Mobile number");
                     mobileNumber = Console.ReadLine();
+                    CheckForDuplicate(firstName);
                     personInfoValidation(firstName, lastName, zip, mobileNumber);
-                }
-            }
-            catch(System.FormatException addressbookException)
-            {
-                throw new AddressBookException(addressbookException.Message);
-            }
-            nLog.LogDebug("Debug sucessfull:AddPerson()");
-            Display();
+                    Console.WriteLine("want to add more contacts then press 1 or press other than 1");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    if (choice == 1)
+                        AddPerson();
+                    else
+                        i = false;
+                        
+                }catch(System.FormatException)
+                {
 
+                    throw new AddressBookException("Please enter valid number");
+                }
+                  
+            }
+            
+            
         }
         /// <summary>
         /// Edit the person from existing list
@@ -126,7 +138,7 @@ namespace AddressBook
         
         public void personInfoValidation(string firstname,string lastname,string zipcode,string mobileNumber)
         {
-            if (Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
+            if (checkForDuplicate==0 &&Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
             {
                 personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
                 person.Add(firstName, personList);
@@ -135,6 +147,22 @@ namespace AddressBook
             {
                 nLog.LogError("Please enter valid details");
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="firstname">The firstname.</param>
+        public void CheckForDuplicate(string firstname)
+        {
+            if (person.ContainsKey(firstname))
+            {
+
+                Console.WriteLine("Contact already exists");
+                checkForDuplicate = 1;
+                AddPerson();
+            }
+            
         }
     }
 }

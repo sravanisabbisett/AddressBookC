@@ -10,7 +10,8 @@ namespace AddressBook
             AddressBookimpl addressBook = new AddressBookimpl();
             while (true)
             {
-                Console.WriteLine("1)Add Person in AddressBook\n" + "2)Edit Person in Address\n" + "3)Delete Person in AddressBook");
+                Console.WriteLine("1)Add Person in AddressBook\n" + "2)Edit Person in Address\n" + "3)Delete Person in AddressBook\n"
+                                            +"Display addressBook");
                 try
                 {
                     var choice = Convert.ToInt32(Console.ReadLine());
@@ -24,6 +25,9 @@ namespace AddressBook
                             break;
                         case 3:
                             addressBook.DeletePerson();
+                            break;
+                        case 4:
+                            addressBook.Display();
                             break;
                         default:
                             Console.Write("Please Enter correct option");
@@ -43,7 +47,6 @@ namespace AddressBook
                 catch(System.FormatException formatException)
                 {
                     Console.WriteLine(formatException);
-                   //throw new AddressBookException(formatException.Message);
                 }
                 catch(AddressBookException Exception)
                 {
