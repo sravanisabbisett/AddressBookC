@@ -16,7 +16,6 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
-        int checkForDuplicate = 0;
         //constants
         public const string NAME_REGEX = "^[a-z]{3,}$";
         public const string ZIP_REGEX = "^[1-9]{1}[0-9]{5}$";
@@ -42,31 +41,35 @@ namespace AddressBook
             {
                 try
                 {
-
                     Console.WriteLine("Enter Firstname");
                     firstName = Console.ReadLine();
-                    Console.WriteLine("Enter Lastname");
-                    lastName = Console.ReadLine();
-                    Console.WriteLine("Enter city");
-                    city = Console.ReadLine();
-                    Console.WriteLine("Enter state");
-                    state = Console.ReadLine();
-                    Console.WriteLine("Enter Zip");
-                    zip = Console.ReadLine();
-                    Console.WriteLine("Enter Mobile number");
-                    mobileNumber = Console.ReadLine();
-                    CheckForDuplicate(firstName);
-                    PersonInfoValidation(firstName, lastName, zip, mobileNumber);
-                    Console.WriteLine("want to add more contacts then press 1 or press other than 1");
-                    int choice = Convert.ToInt32(Console.ReadLine());
-                    if (choice == 1)
+                    if (CheckForDuplicate(firstName))
+                    {
                         AddPerson();
+                    }
                     else
-                        i = false;
-                        
+                    {
+                        Console.WriteLine("Enter Lastname");
+                        lastName = Console.ReadLine();
+                        Console.WriteLine("Enter city");
+                        city = Console.ReadLine();
+                        Console.WriteLine("Enter state");
+                        state = Console.ReadLine();
+                        Console.WriteLine("Enter Zip");
+                        zip = Console.ReadLine();
+                        Console.WriteLine("Enter Mobile number");
+                        mobileNumber = Console.ReadLine();
+                        //CheckForDuplicate(firstName);
+                        PersonInfoValidation(firstName, lastName, zip, mobileNumber);
+                        Console.WriteLine("want to add more contacts then press 1 or press other than 1");
+                        int choice = Convert.ToInt32(Console.ReadLine());
+                        if (choice == 1)
+                            AddPerson();
+                        else
+                            i = false;
+                    }      
                 }catch(System.FormatException)
                 {
-
                     throw new AddressBookException("Please enter valid number");
                 }
                   
@@ -143,7 +146,7 @@ namespace AddressBook
         
         public void PersonInfoValidation(string firstname,string lastname,string zipcode,string mobileNumber)
         {
-            if (checkForDuplicate==0 &&Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
+            if (Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
             {
                 personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
                 person.Add(firstName, personList);
@@ -161,16 +164,19 @@ namespace AddressBook
         /// checks is the person is already exists or not
         /// </summary>
         /// <param name="firstname">The firstname.</param>
-        public void CheckForDuplicate(string firstname)
+        public bool CheckForDuplicate(string firstname)
         {
             if (person.ContainsKey(firstname))
             {
-
                 Console.WriteLine("Contact already exists");
-                checkForDuplicate = 1;
-                AddPerson();
+                //checkForDuplicate = 1;
+                //AddPerson();
+                return true;
             }
-            
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -271,7 +277,5 @@ namespace AddressBook
                 throw new AddressBookException("Please enter correct input");
             }
         }
-
-            
     }
 }
