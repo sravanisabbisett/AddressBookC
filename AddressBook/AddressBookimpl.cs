@@ -59,7 +59,6 @@ namespace AddressBook
                         zip = Console.ReadLine();
                         Console.WriteLine("Enter Mobile number");
                         mobileNumber = Console.ReadLine();
-                        //CheckForDuplicate(firstName);
                         PersonInfoValidation(firstName, lastName, zip, mobileNumber);
                         Console.WriteLine("want to add more contacts then press 1 or press other than 1");
                         int choice = Convert.ToInt32(Console.ReadLine());
@@ -68,14 +67,15 @@ namespace AddressBook
                         else
                             i = false;
                     }      
-                }catch(System.FormatException)
+                }catch(System.FormatException formatException)
+                {
+                    throw formatException;
+                }
+                catch (AddressBookException)
                 {
                     throw new AddressBookException("Please enter valid number");
                 }
-                  
             }
-            
-            
         }
         /// <summary>
         /// Edit the person from existing list
@@ -169,8 +169,6 @@ namespace AddressBook
             if (person.ContainsKey(firstname))
             {
                 Console.WriteLine("Contact already exists");
-                //checkForDuplicate = 1;
-                //AddPerson();
                 return true;
             }
             else
@@ -206,9 +204,13 @@ namespace AddressBook
                         break;
                 }
             }
-            catch (System.FormatException)
+            catch (System.FormatException formatException)
             {
-                throw new AddressBookException("Please enter correct input");
+                throw formatException;
+            }
+            catch (AddressBookException)
+            {
+                throw new AddressBookException("Please enter valid number");
             }
         }
 
@@ -239,9 +241,13 @@ namespace AddressBook
                         break;
                 }
             }
-            catch (System.FormatException)
+            catch (System.FormatException formatException)
             {
-                throw new AddressBookException("Please enter correct input");
+                throw formatException;
+            }
+            catch (AddressBookException)
+            {
+                throw new AddressBookException("Please enter valid number");
             }
         }
 
@@ -272,9 +278,13 @@ namespace AddressBook
                         break;
                 }
             }
-            catch (System.FormatException)
+            catch (System.FormatException formatException)
             {
-                throw new AddressBookException("Please enter correct input");
+                throw formatException;
+            }
+            catch (AddressBookException)
+            {
+                throw new AddressBookException("Please enter valid number");
             }
         }
     }
