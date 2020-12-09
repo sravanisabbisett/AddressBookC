@@ -297,5 +297,36 @@ namespace AddressBook
                 Console.WriteLine(sortPerson.toString());
             }
         }
+
+        /// <summary>
+        /// Sorts the by others.
+        /// </summary>
+        public void SortByOthers()
+        {
+            Console.WriteLine("Choose how you want to sort");
+            Console.WriteLine("1)SortByCity\n" + "2)SortByState\n" + "3)SortByZip");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    var result = personList.OrderBy(x => x.city);
+                    foreach (var sortByCity in result)
+                        Console.WriteLine(sortByCity.toString());
+                    break;
+                case 2:
+                    var stateResult = personList.OrderBy(x => x.state);
+                    foreach (var sortByState in stateResult)
+                        Console.WriteLine(sortByState.toString());
+                    break;
+                case 3:
+                    var zipResult = personList.OrderBy(x => x.zip);
+                    foreach (var sortByZip in zipResult)
+                        Console.WriteLine(sortByZip.toString());
+                    break;
+                default:
+                    Console.WriteLine("Please enter correct option");
+                    break;
+            }
+        }
     }
 }
