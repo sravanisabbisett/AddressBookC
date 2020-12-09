@@ -32,8 +32,6 @@ namespace AddressBook
         /// <summary>
         /// adding the person in person list
         /// </summary>
-        
-        
         public void AddPerson()
         {
             i = true;
@@ -168,7 +166,7 @@ namespace AddressBook
         {
             if (person.ContainsKey(firstname))
             {
-                Console.WriteLine("Contact already exists");
+                Console.WriteLine("Contact already exists,Please add Again");
                 return true;
             }
             else
@@ -285,6 +283,18 @@ namespace AddressBook
             catch (AddressBookException)
             {
                 throw new AddressBookException("Please enter valid number");
+            }
+        }
+
+        /// <summary>
+        /// Sorts the first name of the by.
+        /// </summary>
+        public void SortByFirstName()
+        {
+            var result = personList.OrderBy(x => x.firstName);
+            foreach(var sortPerson in result)
+            {
+                Console.WriteLine(sortPerson.toString());
             }
         }
     }
