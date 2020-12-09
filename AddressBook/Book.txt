@@ -1,0 +1,3 @@
+Firstname,Lastname,address,city,state,zip,mobilenumber
+sravani,sabbisetti,bantumilli,andhrapradesh,521324,8712443377
+rupika,sabbisetti,hyderabad,telangana,567890,1234567890

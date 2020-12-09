@@ -1,0 +1,4 @@
+Firstname,Lastname,address,city,state,zip,mobilenumber
+saraiya,purkana,bantumilli,ap,521324,9959582197
+manju,chedhalal,ponnur,telangana,456789,1234567890
+sirisha,gorijala,kovvur,ap,678901,8885683098

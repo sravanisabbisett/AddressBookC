@@ -23,17 +23,23 @@ namespace AddressBook
        
         NLog nLog = new NLog();
         List<Person> personList = new List<Person>();
+        ReadWrite readWrite = new ReadWrite();
         Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
         Dictionary<string, string> cityDictionary = new Dictionary<string, string>();
         Dictionary<string ,string> stateDictionary = new Dictionary<string, string>();
+        List<Person> cityList = new List<Person>();
         bool i = true;
+       
+       
 
-
+        
         /// <summary>
         /// adding the person in person list
         /// </summary>
-        public void AddPerson()
+        public void AddPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
+            Console.WriteLine(personList.Count);
             i = true;
             while (i)
             {
@@ -43,7 +49,8 @@ namespace AddressBook
                     firstName = Console.ReadLine();
                     if (CheckForDuplicate(firstName))
                     {
-                        AddPerson();
+                        Console.WriteLine("Person already exists");
+                        AddPerson(filename);
                     }
                     else
                     {
@@ -61,7 +68,7 @@ namespace AddressBook
                         Console.WriteLine("want to add more contacts then press 1 or press other than 1");
                         int choice = Convert.ToInt32(Console.ReadLine());
                         if (choice == 1)
-                            AddPerson();
+                            AddPerson(filename);
                         else
                             i = false;
                     }      
@@ -74,12 +81,14 @@ namespace AddressBook
                     throw new AddressBookException("Please enter valid number");
                 }
             }
+            readWrite.WriteText(filename, personList);
         }
         /// <summary>
         /// Edit the person from existing list
         /// </summary>
-        public void EditPerson()
+        public void EditPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Enter Edit Person details");
             String edit = Console.ReadLine();
             foreach(Person editPerson in personList)
@@ -101,13 +110,15 @@ namespace AddressBook
                 }
             }
             nLog.LogDebug("Debug sucessfull:EditPerson()");
-            Display();
+            readWrite.WriteText(filename, personList);
+            Display(filename);
         }
         /// <summary>
         /// Deletes the person from existing list
         /// </summary>
-        public void DeletePerson()
+        public void DeletePerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Enter your Delete person details");
             string search = Console.ReadLine();
             int index = 0;
@@ -122,12 +133,14 @@ namespace AddressBook
                     break;
                 }
             }
+            readWrite.WriteText(filename, personList);
         }
         /// <summary>
         /// Displays this list.
         /// </summary>
-        public void Display()
+        public void Display(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             if (personList.Count == 0) 
                 Console.WriteLine("No contact data to display ");
             foreach (Person person in personList)
@@ -146,6 +159,7 @@ namespace AddressBook
         {
             if (Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
             {
+                cityList=readWrite.ReadCityTxt("City.txt");
                 personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
                 person.Add(firstName, personList);
                 cityDictionary.Add(firstname, city);
@@ -164,15 +178,19 @@ namespace AddressBook
         /// <param name="firstname">The firstname.</param>
         public bool CheckForDuplicate(string firstname)
         {
-            if (person.ContainsKey(firstname))
+            bool result = false;
+            foreach(Person person in personList)
             {
-                Console.WriteLine("Contact already exists,Please add Again");
-                return true;
+                if (person.firstName.Equals(firstName))
+                {
+                    result= true;
+                }
+                else
+                {
+                    result= false;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return result;
         }
 
         /// <summary>
@@ -180,8 +198,9 @@ namespace AddressBook
         /// </summary>
         /// <exception cref="AddressBookException">Please enter correct input</exception>
         
-        public void SearchPerson()
+        public void SearchPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Choose you want to search by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
             {
@@ -217,8 +236,9 @@ namespace AddressBook
         /// </summary>
         /// <exception cref="AddressBookException">Please enter correct input</exception>
         
-        public void CountPerson()
+        public void CountPerson(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Choose how you want to count by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
             {
@@ -289,8 +309,9 @@ namespace AddressBook
         /// <summary>
         /// Sorts the first name of the by.
         /// </summary>
-        public void SortByFirstName()
+        public void SortByFirstName(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             var result = personList.OrderBy(x => x.firstName);
             foreach(var sortPerson in result)
             {
@@ -301,8 +322,9 @@ namespace AddressBook
         /// <summary>
         /// Sorts the by others.
         /// </summary>
-        public void SortByOthers()
+        public void SortByOthers(string filename)
         {
+            personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Choose how you want to sort");
             Console.WriteLine("1)SortByCity\n" + "2)SortByState\n" + "3)SortByZip");
             int choice = Convert.ToInt32(Console.ReadLine());
