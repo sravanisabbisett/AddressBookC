@@ -54,6 +54,9 @@ namespace AddressBook
                         case 10:
                             addressBook.SortByFirstNameUsingCsv(filename);
                             break;
+                        case 11:
+                            addressBook.SortByFirstnameUsingJson(filename);
+                            break;
                         default:
                             Console.WriteLine("Please Enter correct option");
                             break;

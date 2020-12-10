@@ -35,19 +35,6 @@ namespace AddressBook
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Person"/> class.
-        /// </summary>
-        /// <param name="firstname">The firstname.</param>
-        /// <param name="city">The city.</param>
-        public Person(string firstname,string city,string state)
-        {
-            this.firstName = firstName;
-            this.city = city;
-            this.state = state;
-        }
-
-
-        /// <summary>
         /// To print the elements in list
         /// </summary>
         /// <returns></returns>

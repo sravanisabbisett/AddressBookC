@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -67,15 +68,13 @@ namespace AddressBook
             string path = "\\Users\\PC\\source\\repos\\AddressBook\\AddressBook\\";
             string[] fileArray = Directory.GetFiles(path, "*.txt");
             string[] fileArrays = Directory.GetFiles(path, "*.csv");
+            string[] fileArraysjson = Directory.GetFiles(path, "*.json");
             foreach (string file in fileArray)
-            {
                 Console.WriteLine(Path.GetFileName(file));
-            }
             foreach(string file in fileArrays)
-            {
                 Console.WriteLine(Path.GetFileName(file));
-            }
-               
+            foreach (string file in fileArraysjson)
+                Console.WriteLine(Path.GetFileName(file));
         }
 
         /// <summary>
@@ -133,9 +132,9 @@ namespace AddressBook
         /// </summary>
         /// <param name="Filename">The filename.</param>
         /// <returns></returns>
-        public List<Person> ReadCsv(string Filename)
+        public List<Person> ReadCsv(string filename)
         {
-            string path = "\\Users\\PC\\source\\repos\\AddressBook\\AddressBook\\" + Filename;
+            string path = "\\Users\\PC\\source\\repos\\AddressBook\\AddressBook\\" + filename;
             StreamReader BR = new StreamReader(path);
             CsvReader csvReader = new CsvReader(BR,CultureInfo.InvariantCulture);
             List<Person> person = new List<Person>();
@@ -143,5 +142,29 @@ namespace AddressBook
             return person;
         }
 
+        /// <summary>
+        /// Writes the json.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <param name="person">The person.</param>
+        public void WriteJson(string filename,List<Person> person)
+        {
+            string path = "\\Users\\PC\\source\\repos\\AddressBook\\AddressBook\\" + filename;
+            string json = JsonConvert.SerializeObject(person.ToArray());
+            File.WriteAllText(path, json);
+        }
+
+        /// <summary>
+        /// Reads from json.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <returns></returns>
+        public List<Person> ReadFromJson(string filename)
+        {
+            string path = "\\Users\\PC\\source\\repos\\AddressBook\\AddressBook\\" + filename;
+            string jsonFile = File.ReadAllText(path);
+            List<Person> person = JsonConvert.DeserializeObject<List<Person>>(jsonFile);
+            return person;
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace AddressBook
         /// </summary>
         public void AddPerson(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            personList = readWrite.ReadFromJson(filename);
             Console.WriteLine(personList.Count);
             i = true;
             while (i)
@@ -65,7 +65,7 @@ namespace AddressBook
                         mobileNumber = Console.ReadLine();
                         PersonInfoValidation(firstName, lastName, zip, mobileNumber);
                         //readWrite.WriteText(filename, personList);
-                        readWrite.writeCsv(filename, personList);
+                        readWrite.WriteJson(filename, personList);
                         Console.WriteLine("want to add more contacts then press 1 or press other than 1");
                         int choice = Convert.ToInt32(Console.ReadLine());
                         if (choice == 1)
@@ -195,19 +195,11 @@ namespace AddressBook
         /// <param name="firstname">The firstname.</param>
         public bool CheckForDuplicate(string firstname)
         {
-            bool result = false;
-            foreach(Person person in personList)
-            {
-                if (person.firstName.Equals(firstName))
-                {
-                    result= true;
-                }
-                else
-                {
-                    result= false;
-                }
-            }
-            return result;
+            cityDictionary = readWrite.ReadFromTxtToDictionary(cityFile);
+            if (cityDictionary.ContainsKey(firstname))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -255,6 +247,8 @@ namespace AddressBook
         
         public void CountPerson(string filename)
         {
+            string count=null;
+            int countPersons=0;
             personList = readWrite.ReadTxt(filename);
             Console.WriteLine("Choose how you want to count by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
@@ -264,15 +258,13 @@ namespace AddressBook
                 {
                     case 1:
                         Console.WriteLine("Enter city name to search");
-                        string countCity = Console.ReadLine();
-                        int countByCity = personList.FindAll(s => s.city.Equals(countCity)).Count;
-                        Console.WriteLine("No of persons present in addressbook for " + countCity + " is::" + countByCity);
+                        count = Console.ReadLine();
+                        countPersons = personList.FindAll(s => s.city.Equals(count)).Count;
                         break;
                     case 2:
                         Console.WriteLine("Enter state name to search");
-                        string countState = Console.ReadLine();
-                        int countByState = personList.FindAll(s => s.state.Equals(countState)).Count;
-                        Console.WriteLine("No of persons present in addressbook for " + countState + " is::" + countByState);
+                        count = Console.ReadLine();
+                        countPersons = personList.FindAll(s => s.state.Equals(count)).Count;
                         break;
                 }
             }
@@ -284,6 +276,7 @@ namespace AddressBook
             {
                 throw new AddressBookException("Please enter valid number");
             }
+            Console.WriteLine("No of persons present in addressbook for " + count + " is::" + countPersons);
         }
 
         /// <summary>
@@ -370,9 +363,27 @@ namespace AddressBook
             }
         }
 
+        /// <summary>
+        /// Sorts the by first name using CSV.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
         public void SortByFirstNameUsingCsv(string filename)
         {
             personList = readWrite.ReadCsv(filename);
+            var result = personList.OrderBy(x => x.firstName);
+            foreach (var sortPerson in result)
+            {
+                Console.WriteLine(sortPerson.toString());
+            }
+        }
+
+        /// <summary>
+        /// Sorts the by firstname.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        public void SortByFirstnameUsingJson(string filename)
+        {
+            personList = readWrite.ReadFromJson(filename);
             var result = personList.OrderBy(x => x.firstName);
             foreach (var sortPerson in result)
             {
