@@ -16,23 +16,22 @@ namespace AddressBook
         public string state;
         public string zip;
         public string mobileNumber;
+        
         //constants
         public const string NAME_REGEX = "^[a-z]{3,}$";
         public const string ZIP_REGEX = "^[1-9]{1}[0-9]{5}$";
         public const string NUMBER_REGEX = "^[0-9]{10}$";
-       
+        public string cityFile = "City.txt";
+        public string stateFile = "State.txt";
+
         NLog nLog = new NLog();
         List<Person> personList = new List<Person>();
         ReadWrite readWrite = new ReadWrite();
-        Dictionary<string, List<Person>> person = new Dictionary<string, List<Person>>();
         Dictionary<string, string> cityDictionary = new Dictionary<string, string>();
         Dictionary<string ,string> stateDictionary = new Dictionary<string, string>();
-        List<Person> cityList = new List<Person>();
         bool i = true;
        
        
-
-        
         /// <summary>
         /// adding the person in person list
         /// </summary>
@@ -49,7 +48,7 @@ namespace AddressBook
                     firstName = Console.ReadLine();
                     if (CheckForDuplicate(firstName))
                     {
-                        Console.WriteLine("Person already exists");
+                        Console.WriteLine("Person already exists,Please Add Again\n");
                         AddPerson(filename);
                     }
                     else
@@ -65,6 +64,8 @@ namespace AddressBook
                         Console.WriteLine("Enter Mobile number");
                         mobileNumber = Console.ReadLine();
                         PersonInfoValidation(firstName, lastName, zip, mobileNumber);
+                        //readWrite.WriteText(filename, personList);
+                        readWrite.writeCsv(filename, personList);
                         Console.WriteLine("want to add more contacts then press 1 or press other than 1");
                         int choice = Convert.ToInt32(Console.ReadLine());
                         if (choice == 1)
@@ -81,7 +82,6 @@ namespace AddressBook
                     throw new AddressBookException("Please enter valid number");
                 }
             }
-            readWrite.WriteText(filename, personList);
         }
         /// <summary>
         /// Edit the person from existing list
@@ -95,18 +95,32 @@ namespace AddressBook
             {
                 if (edit.Equals(editPerson.firstName))
                 {
-                    Console.WriteLine("Enter Firstname");
+                    Console.WriteLine("Please select the option to edit\n" + "1)city\n" + "2)state\n" + "3)zip\n" + "4)Number");
+                    int choice = Convert.ToInt32(Console.ReadLine());
                     firstName = editPerson.firstName;
-                    Console.WriteLine("Enter Lastname");
-                    editPerson.lastName = Console.ReadLine();
-                    Console.WriteLine("Enter city");
-                    editPerson.city = Console.ReadLine();
-                    Console.WriteLine("Enter state");
-                    editPerson.state = Console.ReadLine();
-                    Console.WriteLine("Enter Zip");
-                    editPerson.zip = Console.ReadLine();
-                    Console.WriteLine("Enter Mobile number");
-                    editPerson.mobileNumber = Console.ReadLine();
+                    editPerson.lastName = editPerson.lastName;
+                    switch (choice)
+                    {
+                        case 1:
+                            Console.WriteLine("Enter city");
+                            editPerson.city = Console.ReadLine();
+                            break;
+                        case 2:
+                            Console.WriteLine("Enter state");
+                            editPerson.state = Console.ReadLine();
+                            break;
+                        case 3:
+                            Console.WriteLine("Enter Zip");
+                            editPerson.zip = Console.ReadLine();
+                            break;
+                        case 4:
+                            Console.WriteLine("Enter Mobile number");
+                            editPerson.mobileNumber = Console.ReadLine();
+                            break;
+                        default:
+                            Console.WriteLine("Please enter correct option");
+                            break;
+                    }
                 }
             }
             nLog.LogDebug("Debug sucessfull:EditPerson()");
@@ -134,6 +148,7 @@ namespace AddressBook
                 }
             }
             readWrite.WriteText(filename, personList);
+            Console.WriteLine("\n");
         }
         /// <summary>
         /// Displays this list.
@@ -159,11 +174,13 @@ namespace AddressBook
         {
             if (Regex.IsMatch(firstname, NAME_REGEX) && (Regex.IsMatch(lastName, NAME_REGEX)) && (Regex.IsMatch(zipcode, ZIP_REGEX)) && (Regex.IsMatch(mobileNumber, NUMBER_REGEX)))
             {
-                cityList=readWrite.ReadCityTxt("City.txt");
+                cityDictionary = readWrite.ReadFromTxtToDictionary(cityFile);
+                stateDictionary=readWrite.ReadFromTxtToDictionary(stateFile);
                 personList.Add(new Person(firstName, lastName, city, state, zip, mobileNumber));
-                person.Add(firstName, personList);
                 cityDictionary.Add(firstname, city);
                 stateDictionary.Add(firstname, state);
+                readWrite.WriteDictionaryToTxt(cityFile, cityDictionary);
+                readWrite.WriteDictionaryToTxt(stateFile, stateDictionary);
             }
             else
             {
@@ -277,6 +294,8 @@ namespace AddressBook
             Console.WriteLine("Choose how you want to view by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
             {
+                cityDictionary = readWrite.ReadFromTxtToDictionary(cityFile);
+                stateDictionary = readWrite.ReadFromTxtToDictionary(stateFile);
                 int choose = Convert.ToInt32(Console.ReadLine());
                 switch (choose)
                 {
@@ -348,6 +367,16 @@ namespace AddressBook
                 default:
                     Console.WriteLine("Please enter correct option");
                     break;
+            }
+        }
+
+        public void SortByFirstNameUsingCsv(string filename)
+        {
+            personList = readWrite.ReadCsv(filename);
+            var result = personList.OrderBy(x => x.firstName);
+            foreach (var sortPerson in result)
+            {
+                Console.WriteLine(sortPerson.toString());
             }
         }
     }

@@ -1,0 +1,7 @@
+sravani,andhrapradesh
+sirisha,telangana
+saraiya,andhrapradesh
+akhilesh,tamilnadu
+badarinath,andhrapradesh
+manju,andhrapradesh
+sailaja,andhrapradesh

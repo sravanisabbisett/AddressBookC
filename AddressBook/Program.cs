@@ -11,10 +11,11 @@ namespace AddressBook
             ReadWrite readWrite = new ReadWrite();
             while (true)
             {
-                Console.WriteLine("Printing list of files");
+                Console.WriteLine("**Printing list of files**\n");
                 readWrite.ShowFiles();
                 Console.WriteLine("Enter your filename in which u want to perform operation");
                 string filename = Console.ReadLine();
+                Console.WriteLine("\n");
                 Console.WriteLine("1)Add Person in AddressBook\n" + "2)Edit Person in Address\n" + "3)Delete Person in AddressBook\n"
                                    +"4)Display addressBook\n"+"5)SearchPerson\n"+"6)CountPersons\n"+"7)View person\n"
                                     +"8)sortByFirstName\n"+"9)SortByOthers");
@@ -50,10 +51,14 @@ namespace AddressBook
                         case 9:
                             addressBook.SortByOthers(filename);
                             break;
+                        case 10:
+                            addressBook.SortByFirstNameUsingCsv(filename);
+                            break;
                         default:
-                            Console.Write("Please Enter correct option");
+                            Console.WriteLine("Please Enter correct option");
                             break;
                     }
+                    Console.WriteLine("\n");
                     Console.WriteLine("Do you want to continue(Y / N) ? ");
                     var variable = Console.ReadLine();
                     if (variable.Equals("y"))

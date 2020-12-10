@@ -1,2 +1,7 @@
-Firstname,city,state
-,kovvur,andhrapradesh
+sravani,bantumilli
+sirisha,hyderabad
+saraiya,bantumilli
+akhilesh,chennai
+badarinath,bantumilli
+manju,ponnur
+sailaja,bantumilli
