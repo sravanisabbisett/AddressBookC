@@ -2,3 +2,4 @@ Firstname,Lastname,address,city,state,zip,mobilenumber
 saraiya,purkana,bantumilli,andhrapradesh,789012,7712443377
 sravani,sabbisetti,bantumilli,andhrapradesh,521342,8712443377
 sirisha,gorijala,hyderabad,telanagana,500081,9712443377
+vasa,prudhvi,hyderabad,telanagana,500081,8907654321

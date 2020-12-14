@@ -7,3 +7,9 @@ manju,ponnur
 sailaja,bantumilli
 rohith,bantumilli
 mouni,bhimavaram
+srisri,bantumilli
+bhagyalaxmi,mgkl
+krishna,hyderabad
+vasa,hyderabad
+shawn,hyderabad
+ravi,hyderabad

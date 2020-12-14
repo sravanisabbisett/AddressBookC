@@ -139,6 +139,7 @@ namespace AddressBook
             CsvReader csvReader = new CsvReader(BR,CultureInfo.InvariantCulture);
             List<Person> person = new List<Person>();
             person = csvReader.GetRecords<Person>().ToList();
+            BR.Close();
             return person;
         }
 

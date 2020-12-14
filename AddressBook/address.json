@@ -1,1 +1,43 @@
-[{"firstName":"rohith","lastName":"bhat","city":"bantumilli","state":"andhrapradesh","zip":"521324","mobileNumber":"8712443377"},{"firstName":"mouni","lastName":"routhu","city":"bhimavaram","state":"andhrapradesh","zip":"521324","mobileNumber":"8871244337"}]
+[
+  {
+    "firstName": "rohith",
+    "lastName": "bhat",
+    "city": "bantumilli",
+    "state": "andhrapradesh",
+    "zip": "521324",
+    "mobileNumber": "8712443377"
+  },
+  {
+    "firstName": "mouni",
+    "lastName": "routhu",
+    "city": "bhimavaram",
+    "state": "andhrapradesh",
+    "zip": "521324",
+    "mobileNumber": "8871244337"
+  },
+  {
+    "firstName": "srisri",
+    "lastName": "sabb",
+    "city": "bantumilli",
+    "state": "andhrapradesh",
+    "zip": "789012",
+    "mobileNumber": "3456789012"
+  },
+  {
+    "firstName": "bhagyalaxmi",
+    "lastName": "mekala",
+    "city": "mgkl",
+    "state": "telangana",
+    "zip": "500081",
+    "mobileNumber": "4567890123"
+  },
+  {
+    "firstName": "krishna",
+    "lastName": "teja",
+    "city": "hyderabad",
+    "state": "telanagana",
+    "zip": "500081",
+    "mobileNumber": "8712443377"
+  }
+
+]

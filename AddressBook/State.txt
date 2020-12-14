@@ -7,3 +7,9 @@ manju,andhrapradesh
 sailaja,andhrapradesh
 rohith,andhrapradesh
 mouni,andhrapradesh
+srisri,andhrapradesh
+bhagyalaxmi,telangana
+krishna,telanagana
+vasa,telanagana
+shawn,telanagana
+ravi,telanagana

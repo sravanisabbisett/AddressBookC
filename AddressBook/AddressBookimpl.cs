@@ -37,7 +37,7 @@ namespace AddressBook
         /// </summary>
         public void AddPerson(string filename)
         {
-            personList = readWrite.ReadFromJson(filename);
+            ReadFile(filename);
             Console.WriteLine(personList.Count);
             i = true;
             while (i)
@@ -64,8 +64,7 @@ namespace AddressBook
                         Console.WriteLine("Enter Mobile number");
                         mobileNumber = Console.ReadLine();
                         PersonInfoValidation(firstName, lastName, zip, mobileNumber);
-                        //readWrite.WriteText(filename, personList);
-                        readWrite.WriteJson(filename, personList);
+                        WriteFile(filename,personList);
                         Console.WriteLine("want to add more contacts then press 1 or press other than 1");
                         int choice = Convert.ToInt32(Console.ReadLine());
                         if (choice == 1)
@@ -88,7 +87,7 @@ namespace AddressBook
         /// </summary>
         public void EditPerson(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            ReadFile(filename);
             Console.WriteLine("Enter Edit Person details");
             String edit = Console.ReadLine();
             foreach(Person editPerson in personList)
@@ -124,7 +123,7 @@ namespace AddressBook
                 }
             }
             nLog.LogDebug("Debug sucessfull:EditPerson()");
-            readWrite.WriteText(filename, personList);
+            WriteFile(filename, personList);
             Display(filename);
         }
         /// <summary>
@@ -132,7 +131,7 @@ namespace AddressBook
         /// </summary>
         public void DeletePerson(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            ReadFile(filename);
             Console.WriteLine("Enter your Delete person details");
             string search = Console.ReadLine();
             int index = 0;
@@ -147,15 +146,15 @@ namespace AddressBook
                     break;
                 }
             }
-            readWrite.WriteText(filename, personList);
-            Console.WriteLine("\n");
+            WriteFile(filename, personList);
         }
+
         /// <summary>
         /// Displays this list.
         /// </summary>
         public void Display(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            ReadFile(filename);
             if (personList.Count == 0) 
                 Console.WriteLine("No contact data to display ");
             foreach (Person person in personList)
@@ -209,7 +208,7 @@ namespace AddressBook
         
         public void SearchPerson(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            ReadFile(filename);
             Console.WriteLine("Choose you want to search by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
             {
@@ -249,7 +248,7 @@ namespace AddressBook
         {
             string count=null;
             int countPersons=0;
-            personList = readWrite.ReadTxt(filename);
+            ReadFile(filename);
             Console.WriteLine("Choose how you want to count by city or state\n" + "Press 1 for city\n" + "Press 2 for state");
             try
             {
@@ -323,7 +322,7 @@ namespace AddressBook
         /// </summary>
         public void SortByFirstName(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            ReadFile(filename);
             var result = personList.OrderBy(x => x.firstName);
             foreach(var sortPerson in result)
             {
@@ -336,7 +335,7 @@ namespace AddressBook
         /// </summary>
         public void SortByOthers(string filename)
         {
-            personList = readWrite.ReadTxt(filename);
+            ReadFile(filename);
             Console.WriteLine("Choose how you want to sort");
             Console.WriteLine("1)SortByCity\n" + "2)SortByState\n" + "3)SortByZip");
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -364,31 +363,31 @@ namespace AddressBook
         }
 
         /// <summary>
-        /// Sorts the by first name using CSV.
+        /// Reads the file.
         /// </summary>
         /// <param name="filename">The filename.</param>
-        public void SortByFirstNameUsingCsv(string filename)
+        public void ReadFile(string filename)
         {
-            personList = readWrite.ReadCsv(filename);
-            var result = personList.OrderBy(x => x.firstName);
-            foreach (var sortPerson in result)
-            {
-                Console.WriteLine(sortPerson.toString());
-            }
+            if (filename.Contains(".csv"))
+                personList = readWrite.ReadCsv(filename);
+            if (filename.Contains(".txt"))
+                personList = readWrite.ReadTxt(filename);
+            if (filename.Contains(".json"))
+                personList = readWrite.ReadFromJson(filename);
         }
 
         /// <summary>
-        /// Sorts the by firstname.
+        /// Writes the file.
         /// </summary>
         /// <param name="filename">The filename.</param>
-        public void SortByFirstnameUsingJson(string filename)
+        public void WriteFile(string filename,List<Person> personList)
         {
-            personList = readWrite.ReadFromJson(filename);
-            var result = personList.OrderBy(x => x.firstName);
-            foreach (var sortPerson in result)
-            {
-                Console.WriteLine(sortPerson.toString());
-            }
+            if (filename.Contains(".csv"))
+                readWrite.writeCsv(filename,personList);
+            if (filename.Contains(".json"))
+                readWrite.WriteJson(filename, personList);
+            if (filename.Contains(".txt"))
+                readWrite.WriteText(filename, personList);
         }
     }
 }
